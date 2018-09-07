@@ -1,44 +1,6 @@
-// let list = new LinkedList2();
-// list.append(15);
-// list.print();
-// console.log(list.indexOf(15));
-
-// list.append(10);
-// list.print();
-// console.log(list.indexOf(10));
-
-// list.append(13);
-// list.print();
-// console.log(list.indexOf(13));
-// console.log(list.indexOf(10));
-
-// list.append(11);
-// list.append(12);
-// list.print();
-// console.log(list.removeAt(1));
-// list.print()
-// console.log(list.removeAt(3));
-
-// list.print();
-// list.append(14);
-// list.print();
-// list.insert(0,16);
-// list.print();
-// list.insert(1,17);
-
-// list.print();
-// list.insert(list.size(),18);
-// list.print();
-// list.remove(16);
-// list.print();
-// list.remove(11);
-// list.print();
-// list.remove(18);
-// list.print();
-
 var assert = require('assert');
 
-var linkedList2 = require('./01-LinkedList2.js');
+var linkedList2 = require('./01-LinkedList.js');
 
 // Tests are hierarchical. Here we define a test suite for our calculator.
 describe('02-UsingLinkedLists', function () {

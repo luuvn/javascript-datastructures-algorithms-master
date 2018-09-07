@@ -4,7 +4,7 @@
   "description": "Learning JavaScript Data Structures and Algorithms ====================================",
   "main": "index.js",
   "scripts": {
-    "test_05_02": "mocha chapter05/02-UsingLinkedLists.js"
+    "test_05": "mocha chapter05/02-UsingLinkedLists.js"
   },
   "author": "",
   "license": "ISC",
