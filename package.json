@@ -1,0 +1,15 @@
+{
+  "name": "javascript-datastructures-algorithms-master",
+  "version": "1.0.0",
+  "description": "Learning JavaScript Data Structures and Algorithms ====================================",
+  "main": "index.js",
+  "scripts": {
+    "test_05_02": "mocha chapter05/02-UsingLinkedLists.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^5.2.0",
+    "mochai": "^0.2.5"
+  }
+}
