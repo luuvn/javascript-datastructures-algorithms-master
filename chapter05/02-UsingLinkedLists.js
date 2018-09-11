@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var linkedList2 = require('./01-LinkedList.js');
+var linkedList2 = require('./01-LinkedList2.js');
 
 // Tests are hierarchical. Here we define a test suite for our calculator.
 describe('02-UsingLinkedLists', function () {
