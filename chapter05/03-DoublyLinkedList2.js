@@ -14,182 +14,130 @@ let DoublyLinkedList2 = (function () {
 
     class DoublyLinkedList2 {
 
-        constructor () {
+        constructor() {
             length.set(this, 0);
             head.set(this, null);
             tail.set(this, null);
         }
 
         append(element) {
+            let node = new Node(element);
 
-            let node = new Node(element),
-                current, _tail;
-
-            if (this.getHead() === null) { //first node on list
+            if (!this.getHead()) {
                 head.set(this, node);
-                tail.set(this, node); //NEW
+                tail.set(this, node);
             } else {
-                //attach to the tail node //NEW
-                _tail = this.getTail();
-                _tail.next = node;
-                node.prev = _tail;
+                this.getTail().next = node;
+                node.prev = this.getTail();
                 tail.set(this, node);
             }
 
-            //update size of list
-            let l = this.size();
-            l++;
-            length.set(this, l);
+            length.set(this, this.size() + 1);
         }
 
         insert(position, element) {
+            if (position > -1 && position <= this.size()) {
+                let node = new Node(element);
 
-            //check for out-of-bounds values
-            if (position >= 0 && position <= this.size()) {
-
-                let node = new Node(element),
-                    current = this.getHead(),
-                    previous,
-                    index = 0;
-
-                if (position === 0) { //add on first position
-
-                    if (!this.getHead()) {       //NEW
+                if (position == 0) {
+                    if (!this.getHead()) {
                         head.set(this, node);
                         tail.set(this, node);
                     } else {
+                        let current = this.getHead();
+                        current.prev = node;
                         node.next = current;
-                        current.prev = node; //NEW {1}
                         head.set(this, node);
                     }
-
-                } else if (position === this.size()) { //last item //NEW
-
-                    current = tail;     // {2}
+                } else if (position == this.size()) {
+                    let current = this.getTail();
                     current.next = node;
                     node.prev = current;
                     tail.set(this, node);
-
                 } else {
-                    while (index++ < position) { //{3}
-                        previous = current;
+                    let index = 0;
+                    let current = this.getHead();
+                    let prev;
+
+                    while (index++ < position) {
+                        prev = current;
                         current = current.next;
                     }
-                    node.next = current;
-                    previous.next = node;
 
-                    current.prev = node; //NEW
-                    node.prev = previous; //NEW
+                    prev.next = node;
+                    node.prev = prev;
+
+                    node.next = current;
+                    current.prev = node;
                 }
 
-                //update size of list
-                let l = this.size();
-                l++;
-                length.set(this, l);
+                length.set(this, this.size() + 1);
 
                 return true;
-
             } else {
                 return false;
             }
         }
 
         removeAt(position) {
-
-            //check for out-of-bounds values
             if (position > -1 && position < this.size()) {
+                let current = this.getHead();
 
-                let _head = this.getHead(),
-                    _tail = this.getTail(),
-                    current = _head,
-                    previous,
-                    index = 0;
+                if (position == 0) {
+                    head.set(this, current.next);
 
-                //removing first item
-                if (position === 0) {
-
-                    _head = current.next; // {1}
-
-                    //if there is only one item, then we update tail as well //NEW
-                    if (this.size() === 1) { // {2}
-                        _tail = null;
+                    if (this.size() == 1) {
+                        tail.set(this, null);
                     } else {
-                        _head.prev = null; // {3}
+                        this.getHead().prev = null;
                     }
-
-                } else if (position === this.size() - 1) { //last item //NEW
-
-                    current = _tail; // {4}
-                    _tail = current.prev;
-                    _tail.next = null;
-
+                } else if (position == (this.size() - 1)) {
+                    current = this.getTail();
+                    current.prev.next = null;
+                    tail.set(this, current.prev);
                 } else {
+                    let index = 0;
+                    let prev;
 
-                    while (index++ < position) { // {5}
-
-                        previous = current;
+                    while (index++ < position) {
+                        prev = current;
                         current = current.next;
                     }
 
-                    //link previous with current's next - skip it to remove
-                    previous.next = current.next; // {6}
-                    current.next.prev = previous; //NEW
+                    prev.next = current.next;
+                    current.next.prev = prev;
                 }
 
-                head.set(this,_head);
-                tail.set(this,_tail);
-
-                //update size of list
-                let l = this.size();
-                l--;
-                length.set(this, l);
+                length.set(this, this.size() - 1);
 
                 return current.element;
-
             } else {
                 return null;
             }
         }
 
         remove(element) {
-
             let index = this.indexOf(element);
             return this.removeAt(index);
         }
 
         indexOf(element) {
+            let current = this.getHead();
+            let index = 0;
 
-            let current = this.getHead(),
-                index = -1;
-
-            //check first item
-            if (element == current.element) {
-                return 0;
-            }
-
-            index++;
-
-            //check in the middle of the list
-            while (current.next) {
-
-                if (element == current.element) {
+            while (current) {
+                if (current.element == element) {
                     return index;
                 }
-
-                current = current.next;
                 index++;
-            }
-
-            //check last item
-            if (element == current.element) {
-                return index;
+                current = current.next;
             }
 
             return -1;
         }
 
         isEmpty() {
-            return this.size() === 0;
+            return length.get(this) == 0;
         }
 
         size() {
@@ -197,37 +145,35 @@ let DoublyLinkedList2 = (function () {
         }
 
         toString() {
+            let current = this.getHead();
+            let string = '';
 
-            let current = this.getHead(),
-                s = current ? current.element : '';
-
-            while (current && current.next) {
+            while (current) {
+                string += current.element + (current.next ? ', ' : '');
                 current = current.next;
-                s += ', ' + current.element;
             }
 
-            return s;
+            return string;
         }
 
         inverseToString() {
+            let current = this.getTail();
+            let string = '';
 
-            let current = this.getTail(),
-                s = current ? current.element : '';
-
-            while (current && current.prev) {
+            while (current) {
+                string += current.element + (current.prev ? ', ' : '');
                 current = current.prev;
-                s += ', ' + current.element;
             }
 
-            return s;
+            return string;
         }
 
         print() {
-            console.log(this.toString());
+            return this.toString();
         }
 
         printInverse() {
-            console.log(this.inverseToString());
+            return this.inverseToString();
         }
 
         getHead() {
@@ -240,3 +186,5 @@ let DoublyLinkedList2 = (function () {
     }
     return DoublyLinkedList2;
 })();
+
+module.exports = DoublyLinkedList2;
