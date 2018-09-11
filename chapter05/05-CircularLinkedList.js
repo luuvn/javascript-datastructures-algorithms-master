@@ -188,3 +188,4 @@ function CircularLinkedList() {
     };
 }
 
+module.exports = CircularLinkedList;

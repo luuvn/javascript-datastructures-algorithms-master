@@ -2,6 +2,7 @@ let assert = require('assert');
 
 let linkedList = require('./01-LinkedList2.js');
 let doubleLinkedList = require('./03-DoublyLinkedList2.js');
+let circularLinkedList = require('./05-CircularLinkedList.js');
 
 // Tests are hierarchical. Here we define a test suite for our calculator.
 /* describe('02-UsingLinkedLists', function () {
@@ -105,150 +106,246 @@ let doubleLinkedList = require('./03-DoublyLinkedList2.js');
         });
 }); */
 
-describe('04-UsingDoublyLinkedLists', function () {
+// describe('04-UsingDoublyLinkedLists', function () {
 
-    let list = new doubleLinkedList();
+//     let list = new doubleLinkedList();
+
+//     // And then we describe our testcases.
+//     it(`list.append(15);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.append(15);
+
+//             assert.equal(list.print(), '15');
+//             assert.equal(list.printInverse(), '15');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.append(16);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.append(16);
+
+//             assert.equal(list.print(), '15, 16');
+//             assert.equal(list.printInverse(), '16, 15');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.append(17);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.append(17);
+
+//             assert.equal(list.print(), '15, 16, 17');
+//             assert.equal(list.printInverse(), '17, 16, 15');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.insert(0, 13);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.insert(0, 13);
+
+//             assert.equal(list.print(), '13, 15, 16, 17');
+//             assert.equal(list.printInverse(), '17, 16, 15, 13');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.insert(4, 18);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.insert(4, 18);
+
+//             assert.equal(list.print(), '13, 15, 16, 17, 18');
+//             assert.equal(list.printInverse(), '18, 17, 16, 15, 13');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.insert(1, 14);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.insert(1, 14);
+
+//             assert.equal(list.print(), '13, 14, 15, 16, 17, 18');
+//             assert.equal(list.printInverse(), '18, 17, 16, 15, 14, 13');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.removeAt(0);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.removeAt(0);
+
+//             assert.equal(list.print(), '14, 15, 16, 17, 18');
+//             assert.equal(list.printInverse(), '18, 17, 16, 15, 14');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.removeAt(list.size() - 1);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.removeAt(list.size() - 1);
+
+//             assert.equal(list.print(), '14, 15, 16, 17');
+//             assert.equal(list.printInverse(), '17, 16, 15, 14');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.removeAt(1);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.removeAt(1);
+
+//             assert.equal(list.print(), '14, 16, 17');
+//             assert.equal(list.printInverse(), '17, 16, 14');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.remove(16);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.remove(16);
+
+//             assert.equal(list.print(), '14, 17');
+//             assert.equal(list.printInverse(), '17, 14');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.remove(14);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.remove(14);
+
+//             assert.equal(list.print(), '17');
+//             assert.equal(list.printInverse(), '17');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+
+//     it(`list.remove(17);
+//         list.print();
+//         list.printInverse();`, function (done) {
+//             list.remove(17);
+
+//             assert.equal(list.print(), '');
+//             assert.equal(list.printInverse(), '');
+
+//             // Invoke done when the test is complete.
+//             done();
+//         });
+// });
+
+describe('06-UsingCircularLinkedList', function () {
+
+    let circularLinkedList = new circularLinkedList();
 
     // And then we describe our testcases.
-    it(`list.append(15);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.append(15);
+    it(`circularLinkedList.append(15);
+    circularLinkedList.print();`, function (done) {
+            circularLinkedList.append(15);
 
-            assert.equal(list.print(), '15');
-            assert.equal(list.printInverse(), '15');
+            assert.equal(circularLinkedList.print(), '15');
 
             // Invoke done when the test is complete.
             done();
         });
 
-    it(`list.append(16);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.append(16);
+    it(`circularLinkedList.append(16);
+        circularLinkedList.print();`, function (done) {
+            circularLinkedList.append(16);
 
-            assert.equal(list.print(), '15, 16');
-            assert.equal(list.printInverse(), '16, 15');
+            assert.equal(circularLinkedList.print(), '15, 16');
 
             // Invoke done when the test is complete.
             done();
         });
 
-    it(`list.append(17);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.append(17);
+    it(`circularLinkedList.insert(0, 14);
+        circularLinkedList.print();`, function (done) {
+            circularLinkedList.insert(0, 14);
 
-            assert.equal(list.print(), '15, 16, 17');
-            assert.equal(list.printInverse(), '17, 16, 15');
+            assert.equal(circularLinkedList.print(), '14, 15, 16');
 
             // Invoke done when the test is complete.
             done();
         });
 
-    it(`list.insert(0, 13);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.insert(0, 13);
+    it(`circularLinkedList.insert(1, 14.5);
+        circularLinkedList.print();`, function (done) {
+            circularLinkedList.insert(1, 14.5);
 
-            assert.equal(list.print(), '13, 15, 16, 17');
-            assert.equal(list.printInverse(), '17, 16, 15, 13');
+            assert.equal(circularLinkedList.print(), '14, 14.5, 15, 16');
 
             // Invoke done when the test is complete.
             done();
         });
 
-    it(`list.insert(4, 18);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.insert(4, 18);
+    it(`circularLinkedList.insert(4, 17);
+    circularLinkedList.print();`, function (done) {
+            circularLinkedList.insert(4, 17);
 
-            assert.equal(list.print(), '13, 15, 16, 17, 18');
-            assert.equal(list.printInverse(), '18, 17, 16, 15, 13');
+            assert.equal(circularLinkedList.print(), '14, 14.5, 15, 16, 17');
 
             // Invoke done when the test is complete.
             done();
         });
 
-    it(`list.insert(1, 14);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.insert(1, 14);
+    it(`circularLinkedList.removeAt(0);
+        circularLinkedList.print();`, function (done) {
+            circularLinkedList.removeAt(0);
 
-            assert.equal(list.print(), '13, 14, 15, 16, 17, 18');
-            assert.equal(list.printInverse(), '18, 17, 16, 15, 14, 13');
+            assert.equal(circularLinkedList.print(), '14.5, 15, 16, 17');
 
             // Invoke done when the test is complete.
             done();
         });
 
-    it(`list.removeAt(0);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.removeAt(0);
+    it(`circularLinkedList.removeAt(1);
+        circularLinkedList.print();`, function (done) {
+            circularLinkedList.removeAt(1);
 
-            assert.equal(list.print(), '14, 15, 16, 17, 18');
-            assert.equal(list.printInverse(), '18, 17, 16, 15, 14');
+            assert.equal(circularLinkedList.print(), '14.5, 16, 17');
 
             // Invoke done when the test is complete.
             done();
         });
 
-    it(`list.removeAt(list.size() - 1);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.removeAt(list.size() - 1);
+    it(`circularLinkedList.removeAt(2);
+        circularLinkedList.print();`, function (done) {
+            circularLinkedList.removeAt(2);
 
-            assert.equal(list.print(), '14, 15, 16, 17');
-            assert.equal(list.printInverse(), '17, 16, 15, 14');
+            assert.equal(circularLinkedList.print(), '14.5, 16');
 
             // Invoke done when the test is complete.
             done();
         });
 
-    it(`list.removeAt(1);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.removeAt(1);
+    it(`circularLinkedList.indexOf(14.5);
+        circularLinkedList.indexOf(16);`, function (done) {
 
-            assert.equal(list.print(), '14, 16, 17');
-            assert.equal(list.printInverse(), '17, 16, 14');
-
-            // Invoke done when the test is complete.
-            done();
-        });
-
-    it(`list.remove(16);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.remove(16);
-
-            assert.equal(list.print(), '14, 17');
-            assert.equal(list.printInverse(), '17, 14');
-
-            // Invoke done when the test is complete.
-            done();
-        });
-
-    it(`list.remove(14);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.remove(14);
-
-            assert.equal(list.print(), '17');
-            assert.equal(list.printInverse(), '17');
-
-            // Invoke done when the test is complete.
-            done();
-        });
-
-    it(`list.remove(17);
-        list.print();
-        list.printInverse();`, function (done) {
-            list.remove(17);
-
-            assert.equal(list.print(), '');
-            assert.equal(list.printInverse(), '');
+            assert.equal(circularLinkedList.indexOf(14.5), 0);
+            assert.equal(circularLinkedList.indexOf(16), 1);
 
             // Invoke done when the test is complete.
             done();
