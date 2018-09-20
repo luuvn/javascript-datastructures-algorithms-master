@@ -1,59 +1,56 @@
-function Dictionary(){
+function Dictionary() {
 
     var items = {};
 
-    this.set = function(key, value){
-        items[key] = value; //{1}
-    };
+    this.set = function (key, value) {
+        if (key != undefined && value != undefined) {
+            items[key] = value;
 
-    this.delete = function(key){
-        if (this.has(key)){
-            delete items[key];
             return true;
         }
+
         return false;
     };
 
-    this.has = function(key){
-        return items.hasOwnProperty(key);
-        //return value in items;
+    this.delete = function (key) {
+
     };
 
-    this.get = function(key) {
-        return this.has(key) ? items[key] : undefined;
+    this.has = function (key) {
+        return Object.prototype.hasOwnProperty.call(items, key);
     };
 
-    this.clear = function(){
+    this.get = function (key) {
+        return items[key];
+    };
+
+    this.clear = function () {
         items = {};
     };
 
-    this.size = function(){
+    this.size = function () {
         return Object.keys(items).length;
     };
 
-    this.keys = function(){
+    this.keys = function () {
         return Object.keys(items);
     };
 
-    this.values = function(){
-        var values = [];
-        for (var k in items) {
-            if (this.has(k)) {
-                values.push(items[k]);
-            }
-        }
-        return values;
+    this.values = function () {
+
     };
 
-    this.each = function(fn) {
-        for (var k in items) {
-            if (this.has(k)) {
-                fn(k, items[k]);
-            }
-        }
+    this.each = function (fn) {
+
     };
 
-    this.getItems = function(){
-        return items;
+    this.getItems = function () {
+
+    }
+
+    this.isEmpty = function () {
+        return this.size() == 0;
     }
 }
+
+module.exports = Dictionary;

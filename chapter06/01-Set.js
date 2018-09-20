@@ -8,28 +8,31 @@ function Set() {
 
     let items = {};
 
-    this.add = function(value){
-        if (!this.has(value)){
+    this.add = function (value) {
+        if (!this.has(value)) {
             items[value] = value;
+
             return true;
         }
+
         return false;
     };
 
-    this.delete = function(value){
-        if (this.has(value)){
+    this.delete = function (value) {
+        if (this.has(value)) {
             delete items[value];
+
             return true;
         }
+
         return false;
     };
 
-    this.has = function(value){
-        return items.hasOwnProperty(value);
-        //return value in items;
+    this.has = function (value) {
+        return Object.prototype.hasOwnProperty.call(items, value);
     };
 
-    this.clear = function(){
+    this.clear = function () {
         items = {};
     };
 
@@ -38,7 +41,7 @@ function Set() {
      * IE9+, FF4+, Chrome5+, Opera12+, Safari5+
      * @returns {Number}
      */
-    this.size = function(){
+    this.size = function () {
         return Object.keys(items).length;
     };
 
@@ -47,13 +50,12 @@ function Set() {
      * for modern browsers use size function
      * @returns {number}
      */
-    this.sizeLegacy = function(){
-        let count = 0;
-        for(let key in items) {
-            if(items.hasOwnProperty(key))
-                ++count;
-        }
-        return count;
+    this.sizeLegacy = function () {
+
+    };
+
+    this.isEmpty = function () {
+        return this.size() == 0;
     };
 
     /**
@@ -61,82 +63,92 @@ function Set() {
      * IE9+, FF4+, Chrome5+, Opera12+, Safari5+
      * @returns {Array}
      */
-    this.values = function(){
-        let values = [];
-        for (let i=0, keys=Object.keys(items); i<keys.length; i++) {
-            values.push(items[keys[i]]);
-        }
-        return values;
-    };
+    this.values = function () {
+        let arr = [];
 
-    this.valuesLegacy = function(){
-        let values = [];
-        for(let key in items) {
-            if(items.hasOwnProperty(key)) {
-                values.push(items[key]);
-            }
-        }
-        return values;
-    };
-
-    this.getItems = function(){
-      return items;
-    };
-
-    this.union = function(otherSet){
-        let unionSet = new Set(); //{1}
-
-        let values = this.values(); //{2}
-        for (let i=0; i<values.length; i++){
-            unionSet.add(values[i]);
+        for (let pos in items) {
+            arr.push(items[pos]);
         }
 
-        values = otherSet.values(); //{3}
-        for (let i=0; i<values.length; i++){
-            unionSet.add(values[i]);
-        }
-
-        return unionSet;
+        return arr;
     };
 
-    this.intersection = function(otherSet){
-        let intersectionSet = new Set(); //{1}
+    this.valuesLegacy = function () {
 
-        let values = this.values();
-        for (let i=0; i<values.length; i++){ //{2}
-            if (otherSet.has(values[i])){    //{3}
-                intersectionSet.add(values[i]); //{4}
-            }
-        }
-
-        return intersectionSet;
     };
 
-    this.difference = function(otherSet){
-        let differenceSet = new Set(); //{1}
+    this.getItems = function () {
 
-        let values = this.values();
-        for (let i=0; i<values.length; i++){ //{2}
-            if (!otherSet.has(values[i])){    //{3}
-                differenceSet.add(values[i]); //{4}
-            }
-        }
-
-        return differenceSet;
     };
 
-    this.subset = function(otherSet){
+    this.union = function (otherSet) {
+        let newSet = new Set();
 
-        if (this.size() > otherSet.size()){ //{1}
-            return false;
-        } else {
-            let values = this.values();
-            for (let i=0; i<values.length; i++){ //{2}
-                if (!otherSet.has(values[i])){    //{3}
-                    return false; //{4}
+        this.values().forEach(element => newSet.add(element));
+        otherSet.values().forEach(element => newSet.add(element));
+
+        return newSet;
+    };
+
+    this.intersection = function (otherSet) {
+        let newSet = new Set();
+
+        this.values().forEach(element => {
+            otherSet.values().forEach(oElement => {
+                if (element == oElement) {
+                    newSet.add(element);
                 }
-            }
-            return true;
-        }
+            })
+        });
+
+        return newSet;
     };
+
+    this.difference = function (otherSet) {
+        let newSet = new Set();
+
+        let intersect = this.intersection(otherSet);
+
+        this.values().forEach(element => {
+            if (!intersect.has(element)) {
+                newSet.add(element);
+            }
+        })
+
+        return newSet;
+    };
+
+    this.isSubsetOf = function (otherSet) {
+        let values = this.values();
+
+        for (let pos in values) {
+            if (!otherSet.has(values[pos])) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    this.toString = function () {
+        let str = '';
+        let value;
+
+        for (let pos in items) {
+            if (typeof items[pos] == 'Object') {
+                value = items[pos].toString();
+            } else {
+                value = items[pos];
+            }
+
+            if (str != '') {
+                str += ',';
+            }
+            str += value;
+        }
+
+        return str;
+    }
 }
+
+module.exports = Set;

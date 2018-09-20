@@ -4,11 +4,14 @@
   "description": "Learning JavaScript Data Structures and Algorithms ====================================",
   "main": "index.js",
   "scripts": {
-    "test_05": "mocha chapter05/UnitTest.js"
+    "test_05": "mocha chapter05/UnitTest.js",
+    "test_06": "mocha chapter06/UnitTest.js",
+    "test_07": "mocha chapter07/UnitTest.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "mochai": "^0.2.5"
   }
