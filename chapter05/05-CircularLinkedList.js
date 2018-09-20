@@ -1,6 +1,6 @@
 function CircularLinkedList() {
 
-    let Node = function(element){
+    let Node = function (element) {
 
         this.element = element;
         this.next = null;
@@ -9,183 +9,152 @@ function CircularLinkedList() {
     let length = 0;
     let head = null;
 
-    this.append = function(element){
+    this.append = function (element) {
+        let node = new Node(element);
 
-        let node = new Node(element),
-            current;
-
-        if (head === null){ //first node on list
+        if (!head) {
             head = node;
         } else {
+            let current = head;
 
-            current = head;
-
-            //loop the list until find last item
-            while(current.next !== head){ //last element will be head instead of NULL
+            while (current.next != head) {
                 current = current.next;
             }
 
-            //get last item and assign next to added item to make the link
             current.next = node;
         }
 
-        //set node.next to head - to have circular list
         node.next = head;
 
-        length++; //update size of list
+        length++;
     };
 
-    this.insert = function(position, element){
+    this.insert = function (position, element) {
+        if (position > -1 && position <= length) {
+            let node = new Node(element);
+            let current = head;
 
-        //check for out-of-bounds values
-        if (position >= 0 && position <= length){
-
-            let node = new Node(element),
-                current = head,
-                previous,
-                index = 0;
-
-            if (position === 0){ //add on first position
-                
-                if(!head){ // if no node  in list
-                    head = node;
-                    node.next = head;
-                }else{
-                    node.next = current;
-
-                    //update last element
-                    while(current.next !== head){ //last element will be head instead of NULL
-                        current = current.next;
-                    }
-
-                    head = node;
-                    current.next = head;
-                }
-                
-
-            } else {
-                while (index++ < position){
-                    previous = current;
+            if (position == 0) {
+                while (current.next != head) {
                     current = current.next;
                 }
-                node.next = current;
-                previous.next = node;
+                current.next = node;
+                node.next = head;
+
+                if (position == 0)
+                    head = node;
+            } else {
+                let i = 0;
+
+                while (i++ < position - 1) {
+                    current = current.next;
+                }
+
+                node.next = current.next;
+                current.next = node;
             }
 
-            length++; //update size of list
+            length++;
 
             return true;
-
         } else {
             return false;
         }
     };
 
-    this.removeAt = function(position){
+    this.removeAt = function (position) {
+        if (position > -1 && position < length) {
+            let current = head;
 
-        //check for out-of-bounds values
-        if (position > -1 && position < length){
+            if (position == 0) {
+                if (length == 1) {
+                    head = null;
+                } else {
+                    while (current.next != head) {
+                        current = current.next;
+                    }
 
-            let current = head,
-                previous,
-                index = 0;
+                    current.next = current.next.next;
+                    head = current.next;
+                }
+            } else {
+                let i = 0;
 
-            //removing first item
-            if (position === 0){
-
-                while(current.next !== head){ //needs to update last element first
+                while (i++ < position - 1) {
                     current = current.next;
                 }
 
-                head = head.next;
-                current.next = head;
-
-            } else { //no need to update last element for circular list
-
-                while (index++ < position){
-
-                    previous = current;
-                    current = current.next;
-                }
-
-                //link previous with current's next - skip it to remove
-                previous.next = current.next;
+                current.next = current.next.next;
             }
 
             length--;
 
-            return current.element;
-
+            return true;
         } else {
-            return null;
+            return false;
         }
     };
 
-    this.remove = function(element){
+    this.remove = function (element) {
 
-        let index = this.indexOf(element);
-        return this.removeAt(index);
     };
 
-    this.indexOf = function(element){
+    this.indexOf = function (element) {
+        let i = 0;
+        let current = head;
 
-        let current = head,
-            index = -1;
+        while (current.next) {
+            if (current.element == element) {
+                return i;
+            } else {
+                if (current.next == head)
+                    break;
 
-        //check first item
-        if (element == current.element){
-            return 0;
-        }
-
-        index++;
-
-        //check in the middle of the list
-        while(current.next !== head){
-
-            if (element == current.element){
-                return index;
+                i++;
+                current = current.next;
             }
-
-            current = current.next;
-            index++;
-        }
-
-        //check last item
-        if (element == current.element){
-            return index;
         }
 
         return -1;
     };
 
-    this.isEmpty = function() {
-        return length === 0;
+    this.isEmpty = function () {
+        return length == 0;
     };
 
-    this.size = function() {
+    this.size = function () {
         return length;
     };
 
-    this.getHead = function(){
+    this.getHead = function () {
         return head;
     };
 
-    this.toString = function(){
+    this.toString = function () {
+        let current = head;
+        let str = '';
 
-        let current = head,
-            s = current.element;
-
-        while(current.next !== head){
+        while (current.next) {
+            str += current.element;
             current = current.next;
-            s += ', ' + current.element;
+
+            if (current == head)
+                break;
+            else
+                str += ', ';
         }
 
-        return s.toString();
+        return str;
     };
 
-    this.print = function(){
-        console.log(this.toString());
+    this.print = function () {
+        return this.toString();
     };
 }
 
 module.exports = CircularLinkedList;
+
+var list = new CircularLinkedList();
+list.append(15);
+list.append(16);
+list.insert(1, 14);
