@@ -1,18 +1,17 @@
 var avlTree = new AVLTree();
 
-avlTree.insert(5);
 avlTree.insert(1);
 avlTree.insert(2);
 avlTree.insert(3);
 avlTree.insert(4);
-
+avlTree.insert(5);
 avlTree.insert(6);
 avlTree.insert(7);
 avlTree.insert(14);
-// avlTree.insert(15);
-// avlTree.insert(13);
-// avlTree.insert(12);
-// avlTree.insert(11);
+avlTree.insert(15);
+avlTree.insert(13);
+avlTree.insert(12);
+avlTree.insert(11);
 
 //RR rotation
 /*avlTree.insert(50);
@@ -47,7 +46,7 @@ avlTree.insert(90);
 avlTree.insert(75);*/
 
 console.log('********* raw data structure ***********');
-console.log(heightNode(avlTree.getRoot()));
+console.log(avlTree.getRoot());
 
 /*avlTree.remove(12);
 avlTree.remove(15);

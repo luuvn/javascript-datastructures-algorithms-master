@@ -1,11 +1,3 @@
-var heightNode = function(node) {
-        if (node === null) {
-            return -1;
-        } else {
-            return Math.max(heightNode(node.left), heightNode(node.right)) + 1;
-        }
-    };
-	
 function AVLTree() {
 
     var Node = function(key){
@@ -24,7 +16,7 @@ function AVLTree() {
         if (node === null) {
             return -1;
         } else {
-			return Math.max(heightNode(node.left), heightNode(node.right)) + 1;
+            return Math.max(heightNode(node.left), heightNode(node.right)) + 1;
         }
     };
 
