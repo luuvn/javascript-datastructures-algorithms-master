@@ -1,11 +1,12 @@
-let ValuePair = require('./Common.js').ValuePair;
-let Utils = require('./Common.js').Utils;
+let ValuePair = require('../Common.js').ValuePair;
+let Utils = require('../Common.js').Utils;
 
-function HashTable() {
+class HashTable {
+    constructor() {
+        this.table = {};
+    }
 
-    var table = [];
-
-    var loseloseHashCode = function (key) {
+    loseloseHashCode(key) {
         if (typeof key === "number") {
             return key;
         }
@@ -15,7 +16,7 @@ function HashTable() {
             hash += convertStr.charCodeAt(i);
         }
         return hash % 37;
-    };
+    }
 
     // var djb2HashCode = function (key) {
     //     var hash = 5381;
@@ -25,11 +26,11 @@ function HashTable() {
     //     return hash % 1013;
     // };
 
-    this.hashCode = function (key) {
-        return loseloseHashCode(key);
-    };
+    hashCode(key) {
+        return this.loseloseHashCode(key);
+    }
 
-    this.put = function (key, value) {
+    put(key, value) {
         if (key === undefined || key === null) {
             return false;
         }
@@ -40,59 +41,55 @@ function HashTable() {
 
         var position = this.hashCode(key);
         console.log(position + ' - ' + key);
-        table[position] = new ValuePair(key, value);
+        this.table[position] = new ValuePair(key, value);
 
         return true;
-    };
+    }
 
-    this.get = function (key) {
-        if (table[this.hashCode(key)])
-            return table[this.hashCode(key)].value;
+    get(key) {
+        if (this.table[this.hashCode(key)])
+            return this.table[this.hashCode(key)].value;
 
         return undefined;
-    };
+    }
 
-    this.getTable = function () {
-        return table;
-    };
+    getTable() {
+        return this.table;
+    }
 
-    this.remove = function (key) {
-        if (table[this.hashCode(key)] !== undefined) {
-            delete table[this.hashCode(key)];
+    remove(key) {
+        if (this.table[this.hashCode(key)] !== undefined) {
+            delete this.table[this.hashCode(key)];
             return true;
         }
 
         return false;
-    };
+    }
 
-    this.print = function () {
-        for (var i = 0; i < table.length; ++i) {
-            if (table[i] !== undefined) {
-                console.log(i + ": " + table[i]);
-            }
-        }
-    };
+    print() {
 
-    this.size = function () {
-        return Object.keys(table).length;
-    };
+    }
 
-    this.isEmpty = function () {
+    size() {
+        return Object.keys(this.table).length;
+    }
+
+    isEmpty() {
         return this.size() == 0;
-    };
+    }
 
-    this.clear = function () {
-        table = [];
-    };
+    clear() {
+        this.table = {};
+    }
 
-    this.toString = function () {
+    toString() {
         if (this.isEmpty())
             return '';
 
-        let arrReuslt = Object.keys(table).map(key => `{${key} => ${table[key].toString()}}`);
+        let arrReuslt = Object.keys(this.table).map(key => `{${key} => ${this.table[key].toString()}}`);
 
         return arrReuslt.toString();
-    };
+    }
 }
 
 module.exports = HashTable;

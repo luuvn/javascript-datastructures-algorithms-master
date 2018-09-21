@@ -118,7 +118,7 @@ function LinkedList() {
 
         var current = head;
         while (current) {
-            string += current.element + (current.next ? ', ' : '');
+            string += current.element + (current.next ? ',' : '');
             current = current.next;
         }
 

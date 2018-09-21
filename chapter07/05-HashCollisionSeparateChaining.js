@@ -1,85 +1,78 @@
-function HashTableSeparateChaining(){
+const HashTable = require('./03-HashTable.js');
+const ValuePair = require('../Common.js').ValuePair;
+const Utils = require('../Common.js').Utils;
+const LinkedList = require('../chapter05/01-LinkedList.js');
 
-    var table = [];
+class HashTableSeparateChaining extends HashTable {
+    constructor() {
+        super();
+    }
 
-    var ValuePair = function(key, value){
-        this.key = key;
-        this.value = value;
+    put(key, value) {
+        if (key != null && value != null) {
+            let position = this.hashCode(key);
 
-        this.toString = function() {
-            return '[' + this.key + ' - ' + this.value + ']';
-        }
-    };
+            if (this.table[position] == null) {
+                this.table[position] = new LinkedList();
+            }
 
-    var loseloseHashCode = function (key) {
-        var hash = 0;
-        for (var i = 0; i < key.length; i++) {
-            hash += key.charCodeAt(i);
-        }
-        return hash % 37;
-    };
+            this.table[position].append(new ValuePair(key, value));
 
-    var hashCode = function(key){
-        return loseloseHashCode(key);
-    };
-
-    this.put = function(key, value){
-        var position = hashCode(key);
-        console.log(position + ' - ' + key);
-
-        if (table[position] == undefined) {
-            table[position] = new LinkedList();
-        }
-        table[position].append(new ValuePair(key, value));
-    };
-
-    this.get = function(key) {
-        var position = hashCode(key);
-
-        if (table[position] !== undefined  && !table[position].isEmpty()){
-
-            //iterate linked list to find key/value
-            var current = table[position].getHead();
-
-            do {
-                if (current.element.key === key){
-                    return current.element.value;
-                }
-                current = current.next;
-            } while(current);
-        }
-        return undefined;
-    };
-
-    this.remove = function(key){
-
-        var position = hashCode(key);
-
-        if (table[position] !== undefined){
-
-            //iterate linked list to find key/value
-            var current = table[position].getHead();
-
-            do {
-                if (current.element.key === key){
-                    table[position].remove(current.element);
-                    if (table[position].isEmpty()){
-                        table[position] = undefined;
-                    }
-                    return true;
-                }
-                current = current.next;
-            } while(current);
+            return true;
         }
 
         return false;
-    };
+    }
 
-    this.print = function() {
-        for (var i = 0; i < table.length; ++i) {
-            if (table[i] !== undefined) {
-               console.log(table[i].toString());
+    get(key) {
+        let position = this.hashCode(key);
+        let linkedList = this.table[position];
+        if (linkedList != null && !linkedList.isEmpty()) {
+            let current = linkedList.getHead();
+            while (current != null) {
+                if (current.element.key == key) {
+                    return current.element.value;
+                }
+
+                current = current.next;
             }
         }
-    };
+
+        return undefined;
+    }
+
+    remove(key) {
+        let position = this.hashCode(key);
+        let linkedList = this.table[position];
+
+        if (linkedList != null && !linkedList.isEmpty()) {
+            let current = linkedList.getHead();
+            while (current != null) {
+                if (current.element.key == key) {
+                    linkedList.remove(current.element);
+
+                    if (linkedList.isEmpty()) {
+                        delete this.table[position];
+                    }
+
+                    return true;
+                }
+                current = current.next;
+            }
+        }
+
+        return false;
+    }
+
+    size() {
+        if (Object.keys(this.table).length == 0) {
+            return 0;
+        }
+
+        return Object.keys(this.table)
+            .map(key => this.table[key].size())
+            .reduce((a, b) => a + b);
+    }
 }
+
+module.exports = HashTableSeparateChaining;
