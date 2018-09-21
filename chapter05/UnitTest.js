@@ -258,14 +258,14 @@ let circularLinkedList = require('./05-CircularLinkedList.js');
 
 describe('06-UsingCircularLinkedList', function () {
 
-    let circularLinkedList = new circularLinkedList();
+    let list = new circularLinkedList();
 
     // And then we describe our testcases.
     it(`circularLinkedList.append(15);
     circularLinkedList.print();`, function (done) {
-            circularLinkedList.append(15);
+            list.append(15);
 
-            assert.equal(circularLinkedList.print(), '15');
+            assert.equal(list.print(), '15');
 
             // Invoke done when the test is complete.
             done();
@@ -273,9 +273,9 @@ describe('06-UsingCircularLinkedList', function () {
 
     it(`circularLinkedList.append(16);
         circularLinkedList.print();`, function (done) {
-            circularLinkedList.append(16);
+            list.append(16);
 
-            assert.equal(circularLinkedList.print(), '15, 16');
+            assert.equal(list.print(), '15, 16');
 
             // Invoke done when the test is complete.
             done();
@@ -283,9 +283,9 @@ describe('06-UsingCircularLinkedList', function () {
 
     it(`circularLinkedList.insert(0, 14);
         circularLinkedList.print();`, function (done) {
-            circularLinkedList.insert(0, 14);
+            list.insert(0, 14);
 
-            assert.equal(circularLinkedList.print(), '14, 15, 16');
+            assert.equal(list.print(), '14, 15, 16');
 
             // Invoke done when the test is complete.
             done();
@@ -293,9 +293,9 @@ describe('06-UsingCircularLinkedList', function () {
 
     it(`circularLinkedList.insert(1, 14.5);
         circularLinkedList.print();`, function (done) {
-            circularLinkedList.insert(1, 14.5);
+            list.insert(1, 14.5);
 
-            assert.equal(circularLinkedList.print(), '14, 14.5, 15, 16');
+            assert.equal(list.print(), '14, 14.5, 15, 16');
 
             // Invoke done when the test is complete.
             done();
@@ -303,9 +303,9 @@ describe('06-UsingCircularLinkedList', function () {
 
     it(`circularLinkedList.insert(4, 17);
     circularLinkedList.print();`, function (done) {
-            circularLinkedList.insert(4, 17);
+            list.insert(4, 17);
 
-            assert.equal(circularLinkedList.print(), '14, 14.5, 15, 16, 17');
+            assert.equal(list.print(), '14, 14.5, 15, 16, 17');
 
             // Invoke done when the test is complete.
             done();
@@ -313,9 +313,9 @@ describe('06-UsingCircularLinkedList', function () {
 
     it(`circularLinkedList.removeAt(0);
         circularLinkedList.print();`, function (done) {
-            circularLinkedList.removeAt(0);
+            list.removeAt(0);
 
-            assert.equal(circularLinkedList.print(), '14.5, 15, 16, 17');
+            assert.equal(list.print(), '14.5, 15, 16, 17');
 
             // Invoke done when the test is complete.
             done();
@@ -323,9 +323,9 @@ describe('06-UsingCircularLinkedList', function () {
 
     it(`circularLinkedList.removeAt(1);
         circularLinkedList.print();`, function (done) {
-            circularLinkedList.removeAt(1);
+            list.removeAt(1);
 
-            assert.equal(circularLinkedList.print(), '14.5, 16, 17');
+            assert.equal(list.print(), '14.5, 16, 17');
 
             // Invoke done when the test is complete.
             done();
@@ -333,9 +333,9 @@ describe('06-UsingCircularLinkedList', function () {
 
     it(`circularLinkedList.removeAt(2);
         circularLinkedList.print();`, function (done) {
-            circularLinkedList.removeAt(2);
+            list.removeAt(2);
 
-            assert.equal(circularLinkedList.print(), '14.5, 16');
+            assert.equal(list.print(), '14.5, 16');
 
             // Invoke done when the test is complete.
             done();
@@ -344,8 +344,8 @@ describe('06-UsingCircularLinkedList', function () {
     it(`circularLinkedList.indexOf(14.5);
         circularLinkedList.indexOf(16);`, function (done) {
 
-            assert.equal(circularLinkedList.indexOf(14.5), 0);
-            assert.equal(circularLinkedList.indexOf(16), 1);
+            assert.equal(list.indexOf(14.5), 0);
+            assert.equal(list.indexOf(16), 1);
 
             // Invoke done when the test is complete.
             done();
