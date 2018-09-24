@@ -1,187 +1,142 @@
-function BinarySearchTree() {
+const Utils = require('../Common.js').Utils;
+const Node = require('../Common.js').Node;
+const Compare = {
+    LESS_THAN: -1,
+    BIGGER_THAN: 1,
+    EQUALS: 0
+};
 
-    var Node = function(key){
-        this.key = key;
-        this.left = null;
-        this.right = null;
-    };
-
-    var root = null;
-
-    this.insert = function(key){
-
-        var newNode = new Node(key);
-
-        //special case - first element
-        if (root === null){
-            root = newNode;
+class BinarySearchTree {
+    constructor() {
+        this.compareFn = Utils.defaultCompare;
+        this.root = undefined;
+    }
+    insert(key) {
+        // special case: first key
+        if (this.root == null) {
+            this.root = new Node(key);
         } else {
-            insertNode(root,newNode);
+            this.insertNode(this.root, key);
         }
-    };
-
-    var insertNode = function(node, newNode){
-        if (newNode.key < node.key){
-            if (node.left === null){
-                node.left = newNode;
+    }
+    insertNode(node, key) {
+        if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+            if (node.left == null) {
+                node.left = new Node(key);
             } else {
-                insertNode(node.left, newNode);
+                this.insertNode(node.left, key);
             }
+        } else if (node.right == null) {
+            node.right = new Node(key);
         } else {
-            if (node.right === null){
-                node.right = newNode;
-            } else {
-                insertNode(node.right, newNode);
-            }
+            this.insertNode(node.right, key);
         }
-    };
-
-    this.getRoot = function(){
-        return root;
-    };
-
-    this.search = function(key){
-
-        return searchNode(root, key);
-    };
-
-    var searchNode = function(node, key){
-
-        if (node === null){
+    }
+    getRoot() {
+        return this.root;
+    }
+    search(key) {
+        return this.searchNode(this.root, key);
+    }
+    searchNode(node, key) {
+        if (node == null) {
             return false;
         }
-
-        if (key < node.key){
-            return searchNode(node.left, key);
-
-        } else if (key > node.key){
-            return searchNode(node.right, key);
-
-        } else { //element is equal to node.item
-            return true;
+        if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+            return this.searchNode(node.left, key);
+        } else if (this.compareFn(key, node.key) === Compare.BIGGER_THAN) {
+            return this.searchNode(node.right, key);
         }
-    };
-
-    this.inOrderTraverse = function(callback){
-        inOrderTraverseNode(root, callback);
-    };
-
-    var inOrderTraverseNode = function (node, callback) {
-        if (node !== null) {
-            inOrderTraverseNode(node.left, callback);
+        return true;
+    }
+    inOrderTraverse(callback) {
+        this.inOrderTraverseNode(this.root, callback);
+    }
+    inOrderTraverseNode(node, callback) {
+        if (node != null) {
+            this.inOrderTraverseNode(node.left, callback);
             callback(node.key);
-            inOrderTraverseNode(node.right, callback);
+            this.inOrderTraverseNode(node.right, callback);
         }
-    };
-
-    this.preOrderTraverse = function(callback){
-        preOrderTraverseNode(root, callback);
-    };
-
-    var preOrderTraverseNode = function (node, callback) {
-        if (node !== null) {
+    }
+    preOrderTraverse(callback) {
+        this.preOrderTraverseNode(this.root, callback);
+    }
+    preOrderTraverseNode(node, callback) {
+        if (node != null) {
             callback(node.key);
-            preOrderTraverseNode(node.left, callback);
-            preOrderTraverseNode(node.right, callback);
+            this.preOrderTraverseNode(node.left, callback);
+            this.preOrderTraverseNode(node.right, callback);
         }
-    };
-
-    this.postOrderTraverse = function(callback){
-        postOrderTraverseNode(root, callback);
-    };
-
-    var postOrderTraverseNode = function (node, callback) {
-        if (node !== null) {
-            postOrderTraverseNode(node.left, callback);
-            postOrderTraverseNode(node.right, callback);
+    }
+    postOrderTraverse(callback) {
+        this.postOrderTraverseNode(this.root, callback);
+    }
+    postOrderTraverseNode(node, callback) {
+        if (node != null) {
+            this.postOrderTraverseNode(node.left, callback);
+            this.postOrderTraverseNode(node.right, callback);
             callback(node.key);
         }
-    };
-
-    this.min = function() {
-        return minNode(root);
-    };
-
-    var minNode = function (node) {
-        if (node){
-            while (node && node.left !== null) {
-                node = node.left;
-            }
-
-            return node.key;
+    }
+    min() {
+        return this.minNode(this.root);
+    }
+    minNode(node) {
+        let current = node;
+        while (current != null && current.left != null) {
+            current = current.left;
         }
-        return null;
-    };
-
-    this.max = function() {
-        return maxNode(root);
-    };
-
-    var maxNode = function (node) {
-        if (node){
-            while (node && node.right !== null) {
-                node = node.right;
-            }
-
-            return node.key;
+        return current;
+    }
+    max() {
+        return this.maxNode(this.root);
+    }
+    maxNode(node) {
+        let current = node;
+        while (current != null && current.right != null) {
+            current = current.right;
         }
-        return null;
-    };
-
-    this.remove = function(element){
-        root = removeNode(root, element);
-    };
-
-    var findMinNode = function(node){
-        while (node && node.left !== null) {
+        return current;
+    }
+    remove(key) {
+        this.root = this.removeNode(this.root, key);
+    }
+    removeNode(node, key) {
+        if (node == null) {
+            return undefined;
+        }
+        if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+            node.left = this.removeNode(node.left, key);
+            return node;
+        } else if (this.compareFn(key, node.key) === Compare.BIGGER_THAN) {
+            node.right = this.removeNode(node.right, key);
+            return node;
+        }
+        // key is equal to node.item
+        // handle 3 special conditions
+        // 1 - a leaf node
+        // 2 - a node with only 1 child
+        // 3 - a node with 2 children
+        // case 1
+        if (node.left == null && node.right == null) {
+            node = undefined;
+            return node;
+        }
+        // case 2
+        if (node.left == null) {
+            node = node.right;
+            return node;
+        } else if (node.right == null) {
             node = node.left;
+            return node;
         }
-
+        // case 3
+        const aux = this.minNode(node.right);
+        node.key = aux.key;
+        node.right = this.removeNode(node.right, aux.key);
         return node;
-    };
+    }
+};
 
-    var removeNode = function(node, element){
-
-        if (node === null){
-            return null;
-        }
-
-        if (element < node.key){
-            node.left = removeNode(node.left, element);
-            return node;
-
-        } else if (element > node.key){
-            node.right = removeNode(node.right, element);
-            return node;
-
-        } else { //element is equal to node.item
-
-            //handle 3 special conditions
-            //1 - a leaf node
-            //2 - a node with only 1 child
-            //3 - a node with 2 children
-
-            //case 1
-            if (node.left === null && node.right === null){
-                node = null;
-                return node;
-            }
-
-            //case 2
-            if (node.left === null){
-                node = node.right;
-                return node;
-
-            } else if (node.right === null){
-                node = node.left;
-                return node;
-            }
-
-            //case 3
-            var aux = findMinNode(node.right);
-            node.key = aux.key;
-            node.right = removeNode(node.right, aux.key);
-            return node;
-        }
-    };
-}
+module.exports = BinarySearchTree;

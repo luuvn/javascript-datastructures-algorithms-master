@@ -6,7 +6,8 @@
   "scripts": {
     "test_05": "mocha chapter05/UnitTest.js",
     "test_06": "mocha chapter06/UnitTest.js",
-    "test_07": "mocha chapter07/UnitTest.js"
+    "test_07": "mocha chapter07/UnitTest.js",
+    "test_08": "mocha chapter08/UnitTest.js"
   },
   "author": "",
   "license": "ISC",
