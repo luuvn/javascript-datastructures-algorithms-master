@@ -2,11 +2,9 @@ let expect = require('chai').expect;
 let BinarySearchTree = require('./01-BinarySearchTree.js');
 
 describe('BinarySearchTree', () => {
-    let tree;
+    let tree, arrResult = [];
 
-    beforeEach(() => {
-        tree = new BinarySearchTree();
-    });
+    tree = new BinarySearchTree();
 
     it('starts empty', () => {
         expect(tree.getRoot()).to.equal(undefined);
@@ -32,6 +30,11 @@ describe('BinarySearchTree', () => {
             expect(node.right).to.equal(right);
         }
     }
+
+    function printNode(value) {
+        // console.log(value);
+        arrResult.push(value);
+    };
 
     it('inserts elements in the BST', () => {
         expect(tree.getRoot()).to.equal(undefined);
@@ -97,11 +100,62 @@ describe('BinarySearchTree', () => {
         assertNode(node, 25, undefined, undefined);
     });
 
-    it('verifies if element exists', () => {
-        expect(tree.getRoot()).to.equal(undefined);
+    it('in-order transverse', () => {
+        arrResult = [];
+        tree.inOrderTraverse(printNode);
+
+        expect(arrResult).to.deep.equal([3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 20, 25]);
     });
 
-    it('removes a leaf', () => {
-        expect(tree.getRoot()).to.equal(undefined);
+    it('pre-order transverse', () => {
+        arrResult = [];
+        tree.preOrderTraverse(printNode);
+
+        expect(arrResult).to.deep.equal([11, 7, 5, 3, 9, 8, 10, 15, 13, 12, 14, 20, 18, 25]);
+    });
+
+    it('post-order transverse', () => {
+        arrResult = [];
+        tree.postOrderTraverse(printNode);
+
+        expect(arrResult).to.deep.equal([3, 5, 8, 10, 9, 7, 12, 14, 13, 18, 25, 20, 15, 11]);
+    });
+
+    it('max and min', () => {
+        expect(tree.max()).to.equal(25);
+        expect(tree.min()).to.equal(3);
+        expect(tree.search(1)).to.equal(false);
+        expect(tree.search(8)).to.equal(true);
+    });
+
+    it('remove 8', () => {
+        arrResult = [];
+
+        tree.remove(8);
+        tree.inOrderTraverse(printNode);
+
+        expect(arrResult).to.deep.equal([3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 18, 20, 25]);
+    });
+
+    it('remove 9', () => {
+        arrResult = [];
+
+        tree.remove(9);
+        tree.inOrderTraverse(printNode);
+
+        expect(arrResult).to.deep.equal([3, 5, 7, 10, 11, 12, 13, 14, 15, 18, 20, 25]);
+    });
+
+    it('remove 15', () => {
+        arrResult = [];
+
+        tree.remove(15);
+        tree.inOrderTraverse(printNode);
+
+        expect(arrResult).to.deep.equal([3, 5, 7, 10, 11, 12, 13, 14, 18, 20, 25]);
+    });
+
+    it('raw data structure', () => {
+        expect(tree.getRoot().key).to.equal(11);
     });
 });

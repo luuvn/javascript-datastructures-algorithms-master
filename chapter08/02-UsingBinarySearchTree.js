@@ -14,19 +14,26 @@ tree.insert(14);
 tree.insert(20);
 tree.insert(18);
 tree.insert(25);
-tree.insert(6);
 
 console.log('********* in-order transverse ***********');
-function printNode(value){
-    console.log(value);
+var arr = [];
+function printNode(value) {
+    arr.push(value);
 }
+
 tree.inOrderTraverse(printNode);
+console.log(arr);
+var arr = [];
 
 console.log('********* pre-order transverse ***********');
 tree.preOrderTraverse(printNode);
+console.log(arr);
+var arr = [];
 
 console.log('********* post-order transverse ***********');
 tree.postOrderTraverse(printNode);
+console.log(arr);
+var arr = [];
 
 
 console.log('********* max and min ***********');
@@ -36,17 +43,23 @@ console.log(tree.search(1) ? 'Key 1 found.' : 'Key 1 not found.');
 console.log(tree.search(8) ? 'Key 8 found.' : 'Key 8 not found.');
 
 
-console.log('********* remove 6 ***********');
-tree.remove(6);
+console.log('********* remove 8 ***********');
+tree.remove(8);
 tree.inOrderTraverse(printNode);
+console.log(arr);
+var arr = [];
 
 console.log('********* remove 5 ***********');
-tree.remove(5);
+tree.remove(9);
 tree.inOrderTraverse(printNode);
+console.log(arr);
+var arr = [];
 
 console.log('********* remove 15 ***********');
 tree.remove(15);
 tree.inOrderTraverse(printNode);
+console.log(arr);
+var arr = [];
 
 console.log('********* raw data structure ***********');
 console.log(tree.getRoot());
