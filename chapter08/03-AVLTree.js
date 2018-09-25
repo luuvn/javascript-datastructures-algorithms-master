@@ -1,149 +1,157 @@
-function AVLTree() {
+const BinarySearchTree = require('./01-BinarySearchTree');
+const Utils = require('../Common').Utils;
+const Node = require('../Common').Node;
 
-    var Node = function(key){
-        this.key = key;
-        this.left = null;
-        this.right = null;
-    };
+const Compare = {
+    LESS_THAN: -1,
+    BIGGER_THAN: 1,
+    EQUALS: 0
+};
 
-    var root = null;
+const BalanceFactor = {
+    UNBALANCED_RIGHT: 1,
+    SLIGHTLY_UNBALANCED_RIGHT: 2,
+    BALANCED: 3,
+    SLIGHTLY_UNBALANCED_LEFT: 4,
+    UNBALANCED_LEFT: 5
+};
 
-    this.getRoot = function(){
-        return root;
-    };
-
-    var heightNode = function(node) {
-        if (node === null) {
+class AVLTree extends BinarySearchTree {
+    constructor(compareFn = Utils.defaultCompare) {
+        super(compareFn);
+        this.compareFn = compareFn;
+        this.root = null;
+    }
+    getNodeHeight(node) {
+        if (node == undefined) {
             return -1;
         } else {
-            return Math.max(heightNode(node.left), heightNode(node.right)) + 1;
+            return Math.max(this.getNodeHeight(node.left), this.getNodeHeight(node.right)) + 1;
         }
-    };
+    }
 
-    var rotationLL = function(node) {
-        var tmp = node.left;
-        node.left = tmp.right;
-        tmp.right = node;
-
-        return tmp;
-    };
-
-    var rotationRR = function(node) {
-        var tmp = node.right;
+    rotationLL(node) {
+        let tmp = node.right;
         node.right = tmp.left;
         tmp.left = node;
 
         return tmp;
-    };
+    }
 
-    var rotationLR = function(node) {
-        node.left = rotationRR(node.left);
-        return rotationLL(node);
-    };
+    rotationRR(node) {
+        let tmp = node.left;
+        node.left = tmp.right;
+        tmp.right = node;
 
-    var rotationRL = function(node) {
-        node.right = rotationLL(node.right);
-        return rotationRR(node);
-    };
+        return tmp;
+    }
 
-    var insertNode = function(node, element) {
+    rotationLR(node) {
+        node.left = this.rotationLL(node.left);
+        return this.rotationRR(node);
+    }
 
-        if (node === null) {
-            node = new Node(element);
+    rotationRL(node) {
+        node.right = this.rotationRR(node.right);
+        return this.rotationLL(node);
+    }
 
-        } else if (element < node.key) {
+    getBalanceFactor(node) {
+        const heightDifference = this.getNodeHeight(node.left) - this.getNodeHeight(node.right);
+        switch (heightDifference) {
+            case -2:
+                return BalanceFactor.UNBALANCED_RIGHT;
+            case -1:
+                return BalanceFactor.SLIGHTLY_UNBALANCED_RIGHT;
+            case 1:
+                return BalanceFactor.SLIGHTLY_UNBALANCED_LEFT;
+            case 2:
+                return BalanceFactor.UNBALANCED_LEFT;
+            default:
+                return BalanceFactor.BALANCED;
+        }
+    }
 
-            node.left = insertNode(node.left, element);
+    insert(key) {
+        this.root = this.insertNode(this.root, key);
+    }
 
-            if (node.left !== null) {
-
-                if ((heightNode(node.left) - heightNode(node.right)) > 1){
-                    if (element < node.left.key){
-                        node = rotationLL(node);
-                    } else {
-                        node = rotationLR(node);
-                    }
-                }
-            }
-        } else if (element > node.key) {
-
-            node.right = insertNode(node.right, element);
-
-            if (node.right !== null) {
-
-                if ((heightNode(node.right) - heightNode(node.left)) > 1){
-
-                    if (element > node.right.key){
-                        node = rotationRR(node);
-                    } else {
-                        node = rotationRL(node);
-                    }
-                }
-            }
+    insertNode(node, key) {
+        if (node == undefined) {
+            node = new Node(key);
+            return node;
         }
 
-        return node;
-    };
+        if (key < node.key) {
+            node.left = this.insertNode(node.left, key);
 
-    this.insert = function(element) {
-        root = insertNode(root, element);
-    };
-
-    var parentNode;
-    var nodeToBeDeleted;
-
-    var removeNode = function(node, element) {
-        if (node === null) {
-            return null;
-        }
-        parentNode = node;
-
-        if (element < node.key) {
-            node.left = removeNode(node.left, element);
+            if (this.getBalanceFactor(node) === BalanceFactor.UNBALANCED_LEFT) {
+                if (key < node.left.key) {
+                    node = this.rotationRR(node);
+                } else if (key > node.left.key) {
+                    node = this.rotationLR(node);
+                }
+            }
         } else {
-            nodeToBeDeleted = node;
-            node.right = removeNode(node.right, element);
-        }
+            node.right = this.insertNode(node.right, key);
 
-        if (node === parentNode) { //remove node
-            if (nodeToBeDeleted !== null && element === nodeToBeDeleted.key) {
-                if (nodeToBeDeleted === parentNode) {
-                    node = node.left;
-                } else {
-                    var tmp = nodeToBeDeleted.key;
-                    nodeToBeDeleted.key = parentNode.key;
-                    parentNode.key = tmp;
-                    node = node.right;
-                }
-            }
-        } else { //do balancing
-
-            if (node.left === undefined) node.left = null;
-            if (node.right === undefined) node.right = null;
-
-            if ((heightNode(node.left) - heightNode(node.right)) === 2) {
-                if (element < node.left.key) {
-                    node = rotationLR(node);
-                } else {
-                    node = rotationLL(node);
-                }
-            }
-
-            if ((heightNode(node.right) - heightNode(node.left)) === 2) {
-                if (element > node.right.key) {
-                    node = rotationRL(node);
-                } else {
-                    node = rotationRR(node);
+            if (this.getBalanceFactor(node) === BalanceFactor.UNBALANCED_RIGHT) {
+                if (key > node.right.key) {
+                    node = this.rotationLL(node);
+                } else if (key < node.right.key) {
+                    node = this.rotationRL(node);
                 }
             }
         }
 
         return node;
-    };
+    }
 
-    this.remove = function(element) {
-        parentNode = null;
-        nodeToBeDeleted = null;
-        root = removeNode(root, element);
-    };
+    removeNode(node, key) {
+
+    }
+
+    // inOrderTraverse(callback) {
+    //     this.inOrderTraverseNode(this.root, callback);
+    // }
+
+    // inOrderTraverseNode(node, callback) {
+    //     if (node == undefined) {
+    //         return;
+    //     }
+
+    //     this.inOrderTraverseNode(node.left, callback);
+    //     callback({ key: node.key, bf: this.getBalanceFactor(node) });
+    //     callback(node.key);
+    //     this.inOrderTraverseNode(node.right, callback);
+    // }
+
+    bfTraverse() {
+        var arr = [this.getRoot()];
+        var output = [];
+        var currentLevel = this.getNodeHeight(arr[0]);
+
+        while (arr.length > 0) {
+            let currentNode = arr.shift();
+
+            if (this.getNodeHeight(currentNode) < currentLevel) {
+                currentLevel = this.getNodeHeight(currentNode);
+                output.push("\n");
+            }
+
+            output.push(currentNode + " ");
+
+            if (currentNode.left) {
+                arr.push(currentNode.left);
+            }
+
+            if (currentNode.right) {
+                arr.push(currentNode.right);
+            }
+        }
+
+        console.log(output.join(""));
+    }
 }
+
+module.exports = AVLTree;
