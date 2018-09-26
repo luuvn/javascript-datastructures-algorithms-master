@@ -30,10 +30,65 @@ describe('AVLTree', () => {
         avlTree.insert(12);
         avlTree.insert(11);
 
+        arrResult = [];
         avlTree.inOrderTraverse(printNode);
         avlTree.bfTraverse();
 
         expect(arrResult).to.deep.equal([1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15]);
+    });
+
+    it('remove', () => {
+
+        console.log("avlTree.remove(12);");
+        avlTree.remove(12);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        console.log("avlTree.remove(15);");
+        avlTree.remove(15);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        console.log("avlTree.remove(11);");
+        avlTree.remove(11);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        console.log("avlTree.remove(14);");
+        avlTree.remove(14);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        console.log("avlTree.remove(13);");
+        avlTree.remove(13);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        console.log("avlTree.remove(7);");
+        avlTree.remove(7);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        console.log("avlTree.remove(6);");
+        avlTree.remove(6);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        console.log("avlTree.remove(2);");
+        avlTree.remove(2);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        console.log("avlTree.remove(4);");
+        avlTree.remove(4);
+        avlTree.bfTraverse();
+        console.log("\n");
+
+        arrResult = [];
+        avlTree.inOrderTraverse(printNode);
+        avlTree.bfTraverse();
+
+        // expect(arrResult).to.deep.equal([1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15]);
     });
 });
 

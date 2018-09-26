@@ -111,9 +111,13 @@ class BinarySearchTree {
         return node.key;
     }
     remove(key) {
-        this.removeNode(this.root, key);
+        this.root = this.removeNode(this.root, key);
     }
     removeNode(node, key) {
+        if (node == undefined) {
+            return undefined;
+        }
+
         if (key < node.key) {
             node.left = this.removeNode(node.left, key);
             return node;
