@@ -47,3 +47,5 @@ let Queue2 = (function () {
     }
     return Queue2;
 })();
+
+module.exports = Queue2;
