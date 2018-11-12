@@ -122,35 +122,82 @@ exports.BFS = function (graph, startVertex) {
     }
 };
 
+let depthFirstSearchVisit = function (vertice, adjList, verticesColors, callback) {
+    verticesColors[vertice] = Colors.GREY;
+
+    callback(vertice);
+
+    let neighbors = adjList.get(vertice);
+
+    for (let pos in neighbors) {
+        let neighbor = neighbors[pos];
+        if (verticesColors[neighbor] == Colors.WHITE) {
+            depthFirstSearchVisit(neighbor, adjList, verticesColors, callback);
+        }
+    }
+
+    verticesColors[vertice] = Colors.BLACK;
+};
+
 exports.depthFirstSearch = function (graph, callback) {
     let vertices = graph.getVertices();
     let adjList = graph.getAdjList();
-    let stack = new Stack();
     let verticesColors = initializeColor(vertices);
 
-    stack.push(vertices[0]);
-
-    while (!stack.isEmpty()) {
-        let visitVertice = stack.pop();
-        
-        callback(visitVertice);
-
-        verticesColors[visitVertice] = Colors.GREY;
-
-        let neighbors = adjList.get(visitVertice);
-        for (let pos in neighbors) {
-            let vertice = neighbors[pos];
-            if (verticesColors[vertice] == Colors.WHITE) {
-                verticesColors[vertice] = Colors.GREY;
-
-                stack.push(vertice);
-            }
+    for (let pos in vertices) {
+        if (verticesColors[vertices[pos]] == Colors.WHITE) {
+            depthFirstSearchVisit(vertices[pos], adjList, verticesColors, callback);
         }
+    }    
+};
 
-        verticesColors[visitVertice] = Colors.BLACK;
+let DFSVisit = function (vertice, adjList, verticesColors, d, f, p, time) {
+    verticesColors[vertice] = Colors.GREY;
+
+    d[vertice] = ++time.count;
+
+    let neighbors = adjList.get(vertice);
+
+    for (let pos in neighbors) {
+        let neighbor = neighbors[pos];
+        if (verticesColors[neighbor] == Colors.WHITE) {
+            p[neighbor] = vertice;
+
+            DFSVisit(neighbor, adjList, verticesColors, d, f, p, time);
+        }
     }
+
+    verticesColors[vertice] = Colors.BLACK;
+
+    f[vertice] = ++time.count;
 };
 
 exports.DFS = function (graph) {
+    let vertices = graph.getVertices();
+    let adjList = graph.getAdjList();
+    let verticesColors = initializeColor(vertices);
 
+    let d = {};
+    let f = {};
+    let p = {};
+
+    for (let pos in vertices) {
+        d[vertices[pos]] = 0;
+        f[vertices[pos]] = 0;
+        p[vertices[pos]] = null;
+    }
+   
+    let time = {count: 0};
+
+    for (let pos in vertices) {
+        if (verticesColors[vertices[pos]] == Colors.WHITE) {
+            DFSVisit(vertices[pos], adjList, verticesColors, d, f, p, time);
+        }
+    }    
+
+    return {
+        discovery: d,
+        finished: f,
+        predecessors: p
+    }
 };
