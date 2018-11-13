@@ -1,16 +1,16 @@
 function ShortestPath(graph) {
 
-  this.graph = graph;
+    this.graph = graph;
 
-  var INF = Number.MAX_SAFE_INTEGER;
+    var INF = Number.MAX_SAFE_INTEGER;
 
-  var minDistance = function(dist, visited){
+    var minDistance = function (dist, visited) {
 
         var min = INF,
             minIndex = -1;
 
-        for (var v = 0; v < dist.length; v++){
-            if (visited[v] == false && dist[v] <= min){
+        for (var v = 0; v < dist.length; v++) {
+            if (visited[v] == false && dist[v] <= min) {
                 min = dist[v];
                 minIndex = v;
             }
@@ -19,7 +19,7 @@ function ShortestPath(graph) {
         return minIndex;
     };
 
-    this.dijkstra = function(src){
+    this.dijkstra = function (src) {
 
         var dist = [],
             visited = [],
@@ -32,14 +32,14 @@ function ShortestPath(graph) {
 
         dist[src] = 0;
 
-        for (var i = 0; i < length-1; i++){
+        for (var i = 0; i < length - 1; i++) {
 
             var u = minDistance(dist, visited);
 
             visited[u] = true;
 
-            for (var v = 0; v < length; v++){
-                if (!visited[v] && this.graph[u][v]!=0 && dist[u] != INF && dist[u]+this.graph[u][v] < dist[v]){
+            for (var v = 0; v < length; v++) {
+                if (!visited[v] && this.graph[u][v] != 0 && dist[u] != INF && dist[u] + this.graph[u][v] < dist[v]) {
                     dist[v] = dist[u] + this.graph[u][v];
                 }
             }
@@ -48,23 +48,23 @@ function ShortestPath(graph) {
         return dist;
     };
 
-    this.floydWarshall = function(){
+    this.floydWarshall = function () {
 
         var dist = [],
             length = this.graph.length,
             i, j, k;
 
-        for (i = 0; i < length; i++){
+        for (i = 0; i < length; i++) {
             dist[i] = [];
-            for (j = 0; j < length; j++){
+            for (j = 0; j < length; j++) {
                 dist[i][j] = this.graph[i][j];
             }
         }
 
-        for (k = 0; k < length; k++){
-            for (i = 0; i < length; i++){
-                for (j = 0; j < length; j++){
-                    if (dist[i][k] + dist[k][j] < dist[i][j]){
+        for (k = 0; k < length; k++) {
+            for (i = 0; i < length; i++) {
+                for (j = 0; j < length; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
                         dist[i][j] = dist[i][k] + dist[k][j];
                     }
                 }
@@ -74,3 +74,5 @@ function ShortestPath(graph) {
         return dist;
     }
 }
+
+module.exports = ShortestPath;
