@@ -5,41 +5,38 @@ function ShortestPath(graph) {
     var INF = Number.MAX_SAFE_INTEGER;
 
     var minDistance = function (dist, visited) {
+        let min = INF;
+        let minIndex = null;
 
-        var min = INF,
-            minIndex = -1;
-
-        for (var v = 0; v < dist.length; v++) {
-            if (visited[v] == false && dist[v] <= min) {
-                min = dist[v];
-                minIndex = v;
+        for (let i = 0; i < dist.length; i++) {
+            if (!visited[i] && dist[i] < min) {
+                min = dist[i];
+                minIndex = i;
             }
         }
 
         return minIndex;
     };
 
-    this.dijkstra = function (src) {
+    this.dijkstra = function (indexBegin) {
 
-        var dist = [],
+        let dist = [],
             visited = [],
             length = this.graph.length;
 
-        for (var i = 0; i < length; i++) {
+        for (let i = 0; i < length; i++) {
             dist[i] = INF;
             visited[i] = false;
         }
 
-        dist[src] = 0;
+        dist[indexBegin] = 0;
 
-        for (var i = 0; i < length - 1; i++) {
-
-            var u = minDistance(dist, visited);
-
+        for (let i = 0; i < length - 1; i++) {
+            let u = minDistance(dist, visited);
             visited[u] = true;
 
-            for (var v = 0; v < length; v++) {
-                if (!visited[v] && this.graph[u][v] != 0 && dist[u] != INF && dist[u] + this.graph[u][v] < dist[v]) {
+            for (let v = 0; v < length; v++) {
+                if (!visited[v] && this.graph[u][v] != 0 && dist[u] + this.graph[u][v] < dist[v]) {
                     dist[v] = dist[u] + this.graph[u][v];
                 }
             }
