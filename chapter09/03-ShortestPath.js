@@ -57,10 +57,10 @@ function ShortestPath(graph) {
                 dist[i][j] = this.graph[i][j];
             }
         }
-
-        for (k = 0; k < length; k++) {
-            for (i = 0; i < length; i++) {
-                for (j = 0; j < length; j++) {
+        
+        for (i = 0; i < length; i++) {
+            for (j = 0; j < length; j++) {
+                for (k = 0; k < length; k++) {
                     if (dist[i][k] + dist[k][j] < dist[i][j]) {
                         dist[i][j] = dist[i][k] + dist[k][j];
                     }

@@ -18,16 +18,6 @@ describe('Floyd-Warshall Algorithm - All-Pairs Shortest Path', () => {
             [INF, INF, INF, INF, INF, 0]
         ];
 
-        for (k = 0; k < length; k++) {
-            for (i = 0; i < length; i++) {
-                for (j = 0; j < length; j++) {
-                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
-                        dist[i][j] = dist[i][k] + dist[k][j];
-                    }
-                }
-            }
-        }
-
         let shortestPath = new ShortestPath(graph);
 
         expect(shortestPath.floydWarshall()).to.deep.equal([
