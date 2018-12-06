@@ -8,7 +8,7 @@ function MinimumSpanningTree(graph) {
         // Initialize min value
         var min = INF, minIndex;
 
-        for (var v = 0; v < this.graph.length; v++){
+        for (var v = 0; v < this.graph.length; v++) {
             if (visited[v] == false && key[v] < min) {
                 min = key[v];
                 minIndex = v;
@@ -16,16 +16,16 @@ function MinimumSpanningTree(graph) {
         }
 
         return minIndex;
-    };
+    }.bind(this);
 
-    this.prim = function() {
+    this.prim = function () {
         var parent = [],
             key = [],
             visited = [],
             length = this.graph.length,
             i;
 
-        for (i = 0; i < length; i++){
+        for (i = 0; i < length; i++) {
             key[i] = INF;
             visited[i] = false;
         }
@@ -33,13 +33,13 @@ function MinimumSpanningTree(graph) {
         key[0] = 0;
         parent[0] = -1;
 
-        for (i = 0; i < length-1; i++) {
+        for (i = 0; i < length - 1; i++) {
             var u = minKey(key, visited);
             visited[u] = true;
 
-            for (var v = 0; v < length; v++){
-                if (this.graph[u][v] && visited[v] == false && this.graph[u][v] <  key[v]){
-                    parent[v]  = u;
+            for (var v = 0; v < length; v++) {
+                if (this.graph[u][v] && visited[v] == false && this.graph[u][v] < key[v]) {
+                    parent[v] = u;
                     key[v] = this.graph[u][v];
                 }
             }
@@ -48,27 +48,27 @@ function MinimumSpanningTree(graph) {
         return parent;
     };
 
-    var find = function(i, parent){
-        while(parent[i]){
+    var find = function (i, parent) {
+        while (parent[i]) {
             i = parent[i];
         }
         return i;
     };
 
-    var union = function(i, j, parent){
-        if(i != j) {
+    var union = function (i, j, parent) {
+        if (i != j) {
             parent[j] = i;
             return true;
         }
         return false;
     };
 
-    var initializeCost = function(){
+    var initializeCost = function () {
         var cost = [], length = this.graph.length;
-        for (var i = 0; i < length; i++){
+        for (var i = 0; i < length; i++) {
             cost[i] = [];
-            for (var j = 0; j < length; j++){
-                if (this.graph[i][j] == 0){
+            for (var j = 0; j < length; j++) {
+                if (this.graph[i][j] == 0) {
                     cost[i][j] = INF;
                 } else {
                     cost[i][j] = this.graph[i][j];
@@ -76,9 +76,9 @@ function MinimumSpanningTree(graph) {
             }
         }
         return cost;
-    };
+    }.bind(this);
 
-    this.kruskal = function(){
+    this.kruskal = function () {
 
         var length = this.graph.length,
             parent = [], cost,
@@ -86,12 +86,12 @@ function MinimumSpanningTree(graph) {
 
         cost = initializeCost();
 
-        while(ne<length-1) {
+        while (ne < length - 1) {
 
-            for(i=0, min = INF;i < length; i++) {
-                for(j=0;j < length; j++) {
-                    if(cost[i][j] < min) {
-                        min=cost[i][j];
+            for (i = 0, min = INF; i < length; i++) {
+                for (j = 0; j < length; j++) {
+                    if (cost[i][j] < min) {
+                        min = cost[i][j];
                         a = u = i;
                         b = v = j;
                     }
@@ -101,7 +101,7 @@ function MinimumSpanningTree(graph) {
             u = find(u, parent);
             v = find(v, parent);
 
-            if (union(u, v, parent)){
+            if (union(u, v, parent)) {
                 ne++;
             }
 
@@ -111,3 +111,5 @@ function MinimumSpanningTree(graph) {
         return parent;
     }
 }
+
+module.exports = MinimumSpanningTree;

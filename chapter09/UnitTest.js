@@ -5,6 +5,41 @@ let breadthFirstSearch = require('./01-Graph.js').breadthFirstSearch;
 let DFS = require('./01-Graph.js').DFS;
 let depthFirstSearch = require('./01-Graph.js').depthFirstSearch;
 let ShortestPath = require('./03-ShortestPath.js');
+let MST = require('./05-MinimumSpanningTree.js');
+
+describe('Kruskal Algorithm - Minimum Spanning Tree', () => {
+    it('Minimum Spanning Tree', () => {
+        const graph = [
+            [0, 2, 4, 0, 0, 0],
+            [2, 0, 2, 4, 2, 0],
+            [4, 2, 0, 0, 3, 0],
+            [0, 4, 0, 0, 3, 2],
+            [0, 2, 3, 3, 0, 2],
+            [0, 0, 0, 2, 2, 0]
+        ];
+
+        let mst = new MST(graph);
+
+        expect(mst.kruskal()).to.deep.equal([, 0, 1, 1, 1, 3]);
+    });
+});
+
+describe('Prim\'s Algorithm - Minimum Spanning Tree', () => {
+    it('Minimum Spanning Tree', () => {
+        const graph = [
+            [0, 2, 4, 0, 0, 0],
+            [2, 0, 2, 4, 2, 0],
+            [4, 2, 0, 0, 3, 0],
+            [0, 4, 0, 0, 3, 2],
+            [0, 2, 3, 3, 0, 2],
+            [0, 0, 0, 2, 2, 0]
+        ];
+
+        let mst = new MST(graph);
+
+        expect(mst.prim()).to.deep.equal([-1, 0, 1, 5, 1, 4]);
+    });
+});
 
 describe('Floyd-Warshall Algorithm - All-Pairs Shortest Path', () => {
     it('All-Pairs Shortest Path', () => {
@@ -46,7 +81,6 @@ describe('Dijkstra\'s Algorithm - Shortest Path', () => {
         let shortestPath = new ShortestPath(graph);
 
         expect(shortestPath.dijkstra(0)).to.deep.equal([0, 2, 4, 6, 4, 6]);
-
     });
 
 });
